@@ -5,3 +5,41 @@ def step_impl(context):
 @then(u'I should see the calculator form')
 def step_impl(context):
     assert context.browser.title == "Tip calculator"
+
+@when(u'I submit the form with a valid total and tip percentage')
+def step_impl(context):
+    br = context.browser
+    br.get('http://localhost:5000')
+    meal_cost = br.find_element_by_name("meal_cost")
+    meal_cost.send_keys("30")
+    tip_percentage = br.find_element_by_name("tip_percentage")
+    tip_percentage.send_keys("20")
+    br.find_element_by_id("submit").click()
+
+@then(u'I should see the results page')
+def step_impl(context):
+    br = context.browser
+    assert br.find_element_by_id('results')
+
+@when(u'I enter a meal cost of $50')
+def step_impl(context):
+    br = context.browser
+    br.get('http://localhost:5000')
+    meal_cost = br.find_element_by_name("meal_cost")
+    meal_cost.send_keys("50")
+
+@when(u'I enter a tip percentage of 20 percent')
+def step_impl(context):
+    br = context.browser
+    tip_percentage = br.find_element_by_name("tip_percentage")
+    tip_percentage.send_keys("20")
+
+@when(u'I submit the form with the cost and tip percentage')
+def step_impl(context):
+	br = context.browser
+	br.find_element_by_id("submit").click()
+
+@then(u'I should see the results page with a $10 tip amount')
+def step_impl(context):
+	br = context.browser
+	result = br.find_element_by_id('results')
